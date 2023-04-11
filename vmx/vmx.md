@@ -4,7 +4,7 @@ current priviledge level (CPL)
 
 
 
-![image-20230410181736431](imgs\vmm-and-guest.png)
+![image-20230410181736431](./imgs/vmm-and-guest.png)
 
 CR4.VMXE[bit 13] = 1 
 

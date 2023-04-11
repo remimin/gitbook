@@ -46,9 +46,9 @@ task也可以通过task gate的方式进行访问，task gate和call gate类似�
 IDT中的门描述符可以是中断、陷入（trap）、任务门描述符(task gate descriptors)。触发中断或者异常处理，是由处理器从外部中断控制器，或者软中断（INTx指令 或 BOUND 指令）获取到中断向量，中断向量作为IDT索引，获取IDT的中断处理函数地址。如果获得的门描述符是中断或者陷入，那么处理流程跟调用门(call gate)类似，如果描述符是任务门描述符，则触发的是任务切换。
 
 
-![IA-32 寄存器和数据结构](imgs\img-1-IA32-regs-ds)
+![IA-32 寄存器和数据结构](imgs/img-1-IA32-regs-ds)
 
-![IA32e 系统寄存器和数据结构及4层页表](imgs\img-2-IA32e-4-Level-paging)
+![IA32e 系统寄存器和数据结构及4层页表](imgs/img-2-IA32e-4-Level-paging)
 
 ## 2.4 内存管理
 
@@ -65,16 +65,16 @@ IDT中的门描述符可以是中断、陷入（trap）、任务门描述符(tas
 
 ### EFLAGS 寄存器
 
-![EFLAGS](imgs\elfags.png)
+![EFLAGS](imgs/elfags.png)
 
 ####  内存管理寄存器
 
-![内存管理寄存器](imgs\mmr.png)
+![内存管理寄存器](imgs/mmr.png)
 
 
 ### 控制寄存器
 
-![控制寄存器](imgs\CRs.png)
+![控制寄存器](imgs/CRs.png)
 
 
 

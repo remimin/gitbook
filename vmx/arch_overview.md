@@ -15,7 +15,7 @@ GDTR: 保存了GDT的线性地址基地址；LDTR：保存了LDT的线性基地�
 
 ## 2.2 System Segments, Segment Descriptors and Gates
 
-除了代码段、数据段和堆栈段之外，架构还定义了两种系统段：TSS和LDT。GDT不人为是系统段，因为GDT的访问不是通过段选择符和段描述符的方式进行的。
+除了代码段、数据段和堆栈段之外，架构还定义了两种系统段：TSS和LDT。GDT不认为是系统段，因为GDT的访问不是通过段选择符和段描述符的方式进行的。
 
 
 ### 2.2.1 TSS 和Task Gates
@@ -41,9 +41,59 @@ task也可以通过task gate的方式进行访问，task gate和call gate类似�
 
 ## 2.3 中断和异常的处理
 
+外部中断、软中断、异常都是通过IDT进行处理的。IDT存储了门描述符（Gate Descriptor），门描述符指向中断或异常的处理入口。同GDT一样，IDT也不是segment。IDT的基地址存储在IDTR中。
+
+IDT中的门描述符可以是中断、陷入（trap）、任务门描述符(task gate descriptors)。触发中断或者异常处理，是由处理器从外部中断控制器，或者软中断（INTx指令 或 BOUND 指令）获取到中断向量，中断向量作为IDT索引，获取IDT的中断处理函数地址。如果获得的门描述符是中断或者陷入，那么处理流程跟调用门(call gate)类似，如果描述符是任务门描述符，则触发的是任务切换。
+
+
+![IA-32 寄存器和数据结构](imgs\img-1-IA32-regs-ds)
+
+![IA32e 系统寄存器和数据结构及4层页表](imgs\img-2-IA32e-4-Level-paging)
+
+## 2.4 内存管理
+
+系统架构支持直接物理地址访问也支持虚拟机地址访问（分页）。物理地址访问，线性地址直接作为物理地址访问物理内存。分页的场景下所有的代码段、数据段以及系统段（包括GDT/IDT）都会被分页存储在物理内存中。CR3寄存器存储了页表地址，通过图看，CR3中存储的是物理内存地址，不是虚拟地址。
+
+## 2.5 系统寄存器
+为了帮助处理器初始化和控制系统操作，系统架构提供了EFLAGS寄存器提供系统标志，以及系统寄存器：
+
+- The system flags and IOPL field in the EFLAGS register control task and mode switching, interrupt handling, instruction tracing, and access rights.
+- 控制寄存器(CR0 CR2 CR3 CR4)包含了flags和数据域控制系统操作。
+- Debug REgisters
+- GDTR LDTR IDTR 
+- MSR（model specific registers）
+
+### EFLAGS 寄存器
+
+![EFLAGS](imgs\elfags.png)
+
+####  内存管理寄存器
+
+![内存管理寄存器](imgs\mmr.png)
+
+
+### 控制寄存器
+
+![控制寄存器](imgs\CRs.png)
 
 
 
-![IA-32 寄存器和数据结构](F:\rminmin\notes\gitbook\vmx\imgs\img-1-IA32-regs-ds)
+CR0.PG (bit31): 为1开启分页，PE为0的情况下，设置PG为1，触发#GP
 
-![IA32e 系统寄存器和数据结构及4层页表](F:\rminmin\notes\gitbook\vmx\imgs\img-2-IA32e-4-Level-paging)
+CR0.PE(bit0): 为1开启保护模式，为0进入实模式
+
+CR4.PSE: 32bit 下的page size严格4KB，设置为1，page size为4MB；
+
+CR4.PAE：Physical Address Extension (bit 5 of CR4).允许产生超过32bit的物理地址，如果为0则，只能产生32bit的物理地址，IA-32e模式PAE必须为1
+
+CR4.MCE: Machine-Check Enable (bit 6 of CR4) ，**Machine-chec**k enable，为1则开启machine-check异常，为0则关闭machine-check异常
+
+CR4.PGE: Page Global Enable (bit 7 of CR4)
+
+详细见: CH2 2.5
+
+术语
+
+#UD ： invalid-opcode exception
+
+#GP : general-protection exception

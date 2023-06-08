@@ -1,6 +1,8 @@
 # system architecture overview
 
 [toc]
+CPU运行模式
+
 ## 2.1 GDT/LDT (Global and Local Descriptor Tables)
 
 
@@ -54,6 +56,20 @@ IDT中的门描述符可以是中断、陷入（trap）、任务门描述符(tas
 
 系统架构支持直接物理地址访问也支持虚拟机地址访问（分页）。物理地址访问，线性地址直接作为物理地址访问物理内存。分页的场景下所有的代码段、数据段以及系统段（包括GDT/IDT）都会被分页存储在物理内存中。CR3寄存器存储了页表地址，通过图看，CR3中存储的是物理内存地址，不是虚拟地址。
 
+有几个地址概念：逻辑地址(logical address)、线性地址(linear address)、物理地址(physical adress)
+
+### 2.4.1  物理地址
+
+### 2.4.2 线性地址
+
+
+
+#### 2.1.1 物理地址空间
+
+### 2.1.2  线性地址空间
+
+### 2.2 地址
+
 ## 2.5 系统寄存器
 为了帮助处理器初始化和控制系统操作，系统架构提供了EFLAGS寄存器提供系统标志，以及系统寄存器：
 
@@ -71,8 +87,21 @@ IDT中的门描述符可以是中断、陷入（trap）、任务门描述符(tas
 
 ![内存管理寄存器](imgs/mmr.png)
 
-
 ### 控制寄存器
+
+CR0: 包含系统控制flag
+
+CR1: 保留
+
+CR2：page fault 线性地址
+
+CR3:  页表基址和两个flag（PCD, PWT）
+
+CR4: 一系列系统能力，架构扩展相关的flag. 63-32 是IA-32e 模式下使用的，
+
+CR8: 读写TPR（Task priority register）
+
+
 
 ![控制寄存器](imgs/CRs.png)
 
@@ -90,10 +119,26 @@ CR4.MCE: Machine-Check Enable (bit 6 of CR4) ，**Machine-chec**k enable，为1�
 
 CR4.PGE: Page Global Enable (bit 7 of CR4)
 
+CR4.OSXSAVE [bit 18]
+
 详细见: CH2 2.5
 
-术语
+EIP：指令指针寄存器，用于保存当前代码段的下一条执行指令，不能直接被软件访问，通过JMP,Jcc, CALL RET, IRET，中断和异常 执行设置
 
-#UD ： invalid-opcode exception
 
-#GP : general-protection exception
+
+### 
+
+
+
+
+
+## TODO
+
+logical processor :  开启了HT（超线程技术后），超线程即为logical processor
+
+core: 物理cpu core
+
+slots：cpu插槽
+
+sblings: 同一个物理core，开启了HT之后的logical processors

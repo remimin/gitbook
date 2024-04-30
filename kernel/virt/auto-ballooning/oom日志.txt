@@ -1,0 +1,33 @@
+[  513.577469][    T1] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.15.0-0-g2dd4b9b3f840
+-prebuilt.qemu.org 04/01/2014
+[  513.587825][    T1] Call Trace:
+[  513.590628][    T1]  dump_stack+0x57/0x6e
+[  513.594182][    T1]  panic+0xfb/0x2dc
+[  513.597482][    T1]  out_of_memory.cold+0x5e/0x7e
+[  513.601662][    T1]  __alloc_pages+0xe7c/0xf50
+[  513.605615][    T1]  pagecache_get_page+0x1d0/0x380
+[  513.609887][    T1]  filemap_fault+0x2f5/0x510
+[  513.613690][    T1]  ext4_filemap_fault+0x2d/0x50 [ext4]
+[  513.618191][    T1]  __do_fault+0x3a/0x190
+[  513.621702][    T1]  do_read_fault+0x31/0xd0
+[  513.625311][    T1]  do_fault+0x75/0x150
+[  513.628684][    T1]  __handle_mm_fault+0x3f9/0x6f0
+[  513.632755][    T1]  handle_mm_fault+0xbe/0x290
+[  513.636602][    T1]  exc_page_fault+0x277/0x550
+[  513.640430][    T1]  ? asm_exc_page_fault+0x8/0x30
+[  513.644501][    T1]  asm_exc_page_fault+0x1e/0x30
+[  513.648507][    T1] RIP: 0033:0x7f6db9431827
+[  513.651893][    T1] Code: Unable to access opcode bytes at RIP 0x7f6db94317fd.
+[  513.657254][    T1] RSP: 002b:00007fff95b59ca0 EFLAGS: 00010246
+[  513.661945][    T1] RAX: 0000000000000000 RBX: 000055b40602ca80 RCX: 000055b4056b74ae
+[  513.668766][    T1] RDX: 0000000000000000 RSI: 0000000000000001 RDI: 7465677261742e79
+[  513.675179][    T1] RBP: 00007fff95b59ca0 R08: 3c05cca50560cbda R09: 16d230d6b35938c5
+[  513.682015][    T1] R10: c24113757e2549dd R11: 00000000000140f0 R12: 000055b4056b749e
+[  513.688673][    T1] R13: 0000000000000000 R14: 0000000000000000 R15: 000055b4056ffca0
+[  513.695729][    T1] Kernel Offset: 0x28800000 from 0xffffffff81000000 (relocation range: 0xffffffff8000
+0000-0xffffffffbfffffff)
+[  513.705040][    T1] ---[ end Kernel panic - not syncing: System is deadlocked on memory ]---
+
+
+
+##  内存

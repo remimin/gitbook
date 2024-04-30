@@ -1,0 +1,139 @@
+filetype on
+" 根据侦测到的不同类型加载对应的插件
+filetype plugin on
+" 自动缩进
+filetype indent on
+
+" 开启语法高亮功能
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+syntax on
+set backspace=2
+set mouse=a
+
+set number "显示行号
+set cursorline "高亮显示当前行
+set hlsearch "高亮显示搜索结果
+set laststatus=2 "总是显示状态栏
+
+let mapleader=","
+
+" VIM-plugin Setting
+
+call plug#begin('~/.vim/autoload') "vim plugin path"
+Plug 'airblade/vim-gitgutter'    "gitgutter插件"
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' } "vim-go 插件"
+Plug 'Valloric/YouCompleteMe' "YCM插件"
+Plug 'Chiel92/vim-autoformat'  "Python pep8 auto format"
+Plug 'scrooloose/nerdtree' 
+Plug 'majutsushi/tagbar'
+Plug 'kshenoy/vim-signature'
+Plug 'kien/ctrlp.vim' "搜索历史打开文件，在命令行模式下按ctrl+p触发
+Plug 'vim-scripts/grep.vim' "在命令行模式使用grep命令，:Grep
+Plug 'Lokaltog/vim-easymotion' "快速跳转，按两下leader键和f组合
+Plug 'vim-scripts/ShowTrailingWhitespace' "高亮显示行尾的多余空白字符
+Plug 'vim-scripts/Solarized' "主题方案
+Plug 'bronson/vim-trailing-whitespace'
+call plug#end()
+
+" YCM Setting
+
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'  "设置全局配置文件的路径
+let g:ycm_seed_identifiers_with_syntax=1    " 语法关键字补全
+let g:ycm_confirm_extra_conf=0  " 打开vim时不再询问是否加载ycm_extra_conf.py配置
+let g:ycm_key_invoke_completion = '<C-a>' " ctrl + a 触发补全
+set completeopt=longest,menu    "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+
+
+" Python Setting
+let python_highlight_all=1
+au Filetype python set tabstop=4
+au Filetype python set softtabstop=4
+au Filetype python set shiftwidth=4
+au Filetype python set textwidth=79
+au Filetype python set expandtab
+au Filetype python set autoindent
+au Filetype python set fileformat=unix
+autocmd Filetype python set foldmethod=indent
+autocmd Filetype python set foldlevel=99
+" 每行不能超过80字符，否则高亮显示。
+au Filetype python highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+au Filetype python match OverLength /\%80v.\+/
+
+" Autoformat
+"
+
+" NERDTree
+" autocmd vimenter * NERDTree  "自动开启Nerdtree
+let g:NERDTreeWinSize = 25 "设定 NERDTree 视窗大小
+" 开启/关闭nerdtree快捷键
+map <C-f> :NERDTreeToggle<CR>
+let NERDTreeShowBookmarks=1  " 开启Nerdtree时自动显示Bookmarks
+"打开vim时如果没有文件自动打开NERDTree
+autocmd vimenter * if !argc()|NERDTree|endif
+"当NERDTree为剩下的唯一窗口时自动关闭
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"设置树的显示图标
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let NERDTreeIgnore = ['\.pyc$']  " 过滤所有.pyc文件不显示
+"let g:NERDTreeShowLineNumbers=1  " 是否显示行号
+let g:NERDTreeHidden=0     "不显示隐藏文件
+"Making it prettier
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+" tagbar Setting
+"
+let tagbar_right=1
+nnoremap <C-t> :TagbarToggle<CR>
+let tagbar_width=32
+"tagbar 子窗口中不显示冗余帮助信息
+let g:tagbar_compact=1
+
+" signature设置
+let g:SignatureMap = {
+        \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "m,",
+        \ 'ToggleMarkAtLine'   :  "m.",
+        \ 'PurgeMarksAtLine'   :  "m-",
+        \ 'DeleteMark'         :  "dm",
+        \ 'PurgeMarks'         :  "mda",
+        \ 'PurgeMarkers'       :  "m<BS>",
+        \ 'GotoNextLineAlpha'  :  "']",
+        \ 'GotoPrevLineAlpha'  :  "'[",
+        \ 'GotoNextSpotAlpha'  :  "`]",
+        \ 'GotoPrevSpotAlpha'  :  "`[",
+        \ 'GotoNextLineByPos'  :  "]'",
+        \ 'GotoPrevLineByPos'  :  "['",
+        \ 'GotoNextSpotByPos'  :  "mn",
+        \ 'GotoPrevSpotByPos'  :  "mp",
+        \ 'GotoNextMarker'     :  "[+",
+        \ 'GotoPrevMarker'     :  "[-",
+        \ 'GotoNextMarkerAny'  :  "]=",
+        \ 'GotoPrevMarkerAny'  :  "[=",
+        \ 'ListLocalMarks'     :  "ms",
+        \ 'ListLocalMarkers'   :  "m?"
+        \ }
+
+""" color settings
+set t_Co=256
+if has("gui_running")
+    set guioptions=gR
+    set mousemodel=popup
+    set background=light
+    ""hi LineNr cterm=bold guibg=black guifg=white
+    ""hi CursorLine cterm=none ctermbg=lightgray ctermfg=none
+    ""hi CursorColumn cterm=none ctermbg=lightgray ctermfg=none
+else
+    set background=dark
+    ""hi LineNr cterm=bold ctermbg=black ctermfg=white
+    ""hi CursorLine cterm=none ctermbg=darkgray ctermfg=none
+    ""hi CursorColumn cterm=none ctermbg=darkgray ctermfg=none
+endif
+
+:silent! colorscheme solarized
+"colorscheme default
+"
+"
+map <leader><space> :FixWhitespace<cr>

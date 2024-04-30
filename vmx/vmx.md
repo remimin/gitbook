@@ -148,13 +148,15 @@ PML index (16 bits).
 
 
 
-Host-state area
+#### Host-state area
 
-VM-execution control fields
+#### VM-execution control fields
 
-VM-exit control fields
 
-VM-exit information fields
+
+#### VM-exit control fields
+
+#### VM-exit information fields
 
 
 

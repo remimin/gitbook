@@ -1,7 +1,16 @@
 # system architecture overview
 
 [toc]
-CPU运行模式
+
+## CPU运行模式
+* 保护模式
+* 实模式
+* 系统管理模式(System management mode SMM)
+  * SMM是从Intel386开始的标准架构特性，通常用于实现电源管理和OEM的不同特性。进入SMM模式是通过外部系统中断(SMI#)。SMM模式中，处理器进入独立的地址空间用于保护当前正在运行的程序或者任务。SMM模式返回后，cpu状态切换回之前的状态。
+* Virtual-8086模式
+* IA-32e模式，Intel 64位架构支持的模式，支持兼容模式和64-bit模式。64-bit模式提供64bit线性地址空间，并且支持物理地址空间大于64GB。兼容模式允许大部分的传统保护模式(legacy protected-mode)应用程序可以无修改的运行。
+![cpu mode transition](cpu_mode_trans.png)
+
 
 ## 2.1 GDT/LDT (Global and Local Descriptor Tables)
 
